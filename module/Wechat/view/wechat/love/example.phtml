@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Our Love Story</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=670px" />
+<style type="text/css">
+@font-face {
+	font-family: digit;
+	src: url('digital-7_mono.ttf') format("truetype");
+}
+</style>
+<link href="/love/style.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="/love/reset.css"/> 
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/love/garden.js"></script>
+<script type="text/javascript" src="/love/functions.js"></script>
+</head>
+
+<body>
+    <a class="back" href="<?php echo $this->indexUrl?>">返回</a>
+    <h2>Dear My Lover</h2>
+	<div id="mainDiv">
+		<div id="content">
+			<div id="loveHeart">
+				<canvas id="garden"></canvas>
+				<div id="words">
+					<div id="messages">
+						My lover, I will have fallen in love with you for
+						<div id="elapseClock" style="display: none"></div>
+						<a href='#' id="accept">click me if accept me</a>
+					</div>
+					<div id="loveu">
+						Love u forever and ever.<br />
+						<div class="signature">- Cao lei yu</div>
+					</div>
+				</div>
+			</div>
+			<div id="code">
+				<span class="string">佛曰：前世五百次的回眸,才换来今世的擦肩而过。</span><br><span
+					class="string">上次的邂逅，让我在茫茫人海中认识了你，即是缘分。你的楚楚可人、冰雪聪明，给我留下了深刻的印象。于是，我鼓起勇气，当场表达了我的心意。
+					因为我知道，你的嫣然一笑早已融化了我的内心。</span>
+				<br><span class="string">从那以后，你让我对生活充满了希望，对未来无限憧憬。期盼着与你相约南湖，漫步林间，想象着与你共进晚餐，甜言蜜语。
+				此刻，我已不能用千言万语来表达，期待今后能一一向你述说相思与忧愁，天天与你分享成功和喜悦。</span>
+				<br><span class="string">但愿人长久，千里共婵娟。借这花好月圆之季，祝你中秋快乐，阖家幸福。</span>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var offsetX = $("#loveHeart").width() / 2;
+		var offsetY = $("#loveHeart").height() / 2 - 55;
+		if (!document.createElement('canvas').getContext) {
+			var msg = document.createElement("div");
+			msg.id = "errorMsg";
+			msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+";
+			document.body.appendChild(msg);
+			$("#code").css("display", "none")
+			$("#copyright").css("position", "absolute");
+			$("#copyright").css("bottom", "10px");
+			document.execCommand("stop");
+		} else {
+			setTimeout(function() {
+				adjustWordsPosition();
+				startHeartAnimation();
+			}, 5000);
+
+			$("#accept").click(function() {
+				$(this).hide();
+				$("#elapseClock").show();
+				var together = new Date();
+				timeElapse(together);
+				setInterval(function() {
+					timeElapse(together);
+				}, 500);
+			})
+			//adjustCodePosition();
+			$("#code").typewriter();
+		}
+	</script>
+</body>
+</html>

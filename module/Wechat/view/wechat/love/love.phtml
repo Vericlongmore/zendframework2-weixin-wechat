@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Our Love Story</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=670px" />
+<style type="text/css">
+@font-face {
+	font-family: digit;
+	src: url('digital-7_mono.ttf') format("truetype");
+}
+</style>
+<link href="/love/style.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="/love/reset.css" />
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/love/garden.js"></script>
+<script type="text/javascript" src="/love/functions.js"></script>
+</head>
+<body>
+	<a class="back" href="<?php echo $this->indexUrl?>">返回</a>
+	<h2>Dear My Lover</h2>
+	<div id="mainDiv">
+		<div id="content">
+			<div id="loveHeart">
+				<canvas id="garden"></canvas>
+				<div id="words">
+					<div id="messages">
+						<?php echo $this->actUser['oName']?>, I will have fallen in love with you for
+						<div id="elapseClock" style="display: none"></div>
+						<a href='#' id="accept">click me if accept me</a>
+					</div>
+					<div id="loveu">
+						Love u forever and ever.<br />
+						<div class="signature">- <?php echo $this->actUser['name']?></div>
+					</div>
+				</div>
+			</div>
+			<div id="code">
+				<span class="string"><?php echo $this->actUser['content']?></span><br>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var offsetX = $("#loveHeart").width() / 2;
+		var offsetY = $("#loveHeart").height() / 2 - 55;
+		if (!document.createElement('canvas').getContext) {
+			var msg = document.createElement("div");
+			msg.id = "errorMsg";
+			msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+";
+			document.body.appendChild(msg);
+			$("#code").css("display", "none")
+			$("#copyright").css("position", "absolute");
+			$("#copyright").css("bottom", "10px");
+			document.execCommand("stop");
+		} else {
+			setTimeout(function() {
+				adjustWordsPosition();
+				startHeartAnimation();
+			}, 5000);
+
+			$("#accept").click(function() {
+				$(this).hide();
+				$("#elapseClock").show();
+				var together = new Date();
+				timeElapse(together);
+				setInterval(function() {
+					timeElapse(together);
+				}, 500);
+			})
+			//adjustCodePosition();
+			$("#code").typewriter();
+		}
+	</script>
+</body>
+</html>

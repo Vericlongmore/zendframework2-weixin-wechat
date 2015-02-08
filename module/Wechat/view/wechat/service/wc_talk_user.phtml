@@ -1,0 +1,73 @@
+<script type="text/javascript">
+<!--
+var sendUrl='<?php echo $this->sendUrl?>';
+$(function(){
+});
+//-->
+</script>
+<a href="<?php echo $this->preUrl?>">返回</a>
+<div class="mag_container">
+	<!--搜索栏-->
+	<div class="searchBox">
+		<form action=<?php echo $this->searchUrl?>
+			method="post">
+			<label>聊天记录查询</label> <input name="search" class="search" type="text" />
+			<input class="search_btn" type="submit" value="查询" />
+		</form>
+	</div>
+	<!--回复窗口-->
+	<div class="sendBox">
+		<div class="sendBar">
+			<form
+				action=<?php echo $this->sendUrl?>
+				method="post">
+				<textarea name="message"></textarea>
+				<input class="send_btn jsSend" type="submit" value="发送" />
+			</form>
+		</div>
+	</div>
+<?php foreach ($this->paginator as $item): ?>
+	<?php if($item['target']=='come'):?>
+		<div class="massageBox massageBoxL">
+		<div class="user">
+			<img src="<?php echo $this->wcUser[headImgUrl]?>" /> <b><?php echo $this->wcUser[nickName];?></b>
+		</div>
+		<div class="info">
+			<p><?php echo $item[content]?></p>
+			<span><?php echo date("Y-m-d H:i:s",$item[createTime])?></span>
+		</div>
+	</div>
+    <?php elseif($item['target']=='to'):?>
+    <div class="massageBox massageBoxR">
+		<div class="user">
+			<img src="" /> <b><?php echo $this->wcApp[appUser]?></b>
+		</div>
+		<div class="info">
+        <?php if($item['msgType']=='text'):?>
+        <p><?php echo $item[content]?></p>
+         <?php elseif($item['msgType']=='news'):?>
+         <?php $news=unserialize($item['content']);?>
+         <div class="massageImg">
+				<img src="<?php echo $news[0][PicUrl]?>" /> <a
+					href="<?php echo $news[0][Url]?>" target="_blank"><?php echo $news[0][Title];array_shift($news);?></a>
+				<ul>
+				    <?php foreach ($news as $n):?>
+					<li><a href="<?php echo $n[Url]?>" target="_blank"><?php echo $n[Title]?></a><img
+						src="<?php echo $n[PicUrl]?>"></li>
+						<?php endforeach;?>
+				</ul>
+			</div>
+         <?php endif;?>
+        <span><?php echo date("Y-m-d H:i:s",$item[createTime])?></span>
+		</div>
+	</div>  
+	<?php endif;?>
+<?php endforeach; ?>
+<?php
+
+echo $this->paginationControl ( $this->paginator, 'Sliding', 'wechat/paginator', array (
+		'baseUri' => $this->baseUri 
+) );
+?>
+</div>
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ZH">
+<head>
+<meta charset="utf8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+<meta http-equiv="keywords" content="七夕,表白" />
+<meta http-equiv="description" content="大声把你的爱对TA说出来吧" />
+<title>七夕我要对TA说</title>
+<link rel="stylesheet" href="/love/reset.css"/>
+</head>
+
+<body>
+<h1>大声说出你对TA的爱吧</h1>
+<p class="info">喜欢TA，就对TA说出你的爱。</p>
+<div class="a_box">
+	<a href="<?php echo $this->lookUrl?>">我的表白</a>
+	<a href="<?php echo $this->exampleUrl?>">例子示范</a>
+</div>
+<div class="say">
+<form method="get" action="<?php echo $this->indexUrl?>">
+    <input name="action" value="submit" style="display:none">
+    <label>我的名字</label>
+    <input name="name" type="text">
+	<label>TA的名字</label>
+    <input name="oName" type="text">
+    <label>我想对TA说</label>
+    <textarea name="content"></textarea>
+    <input type="submit" value="大声说出来">
+</form>
+</div>
+<p class="remind"><span>友情提醒：</span>务必填入相关信息，点击“大声说出来”，或进入“我的表白”，然后你可以在右上角发送给TA表达心意或者分享到朋友圈将你的心意公诸于众。</p>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<div class="connection">
+<?php
+$wcApp = $this->wcApp;
+$flag = $this->flag;
+$type = $wcApp ['appType'];
+?>
+<form method="post" name="accessForm" id="accessForm">
+<?php if($flag=='flag_none'):?>
+        <div>
+			<label for="isOpen">开放状态</label> <span><?php echo $wcApp['isOpen']==0?'关闭':'开放'?></span>
+		</div>
+		<div>
+			<label for="token">token</label> <input name="token" id="token"
+				value="<?php echo $wcApp['token']?>" type="text">
+		</div>
+		<div>
+			<button type="submit" formaction="/wechat/index/access/?action=token"
+				value="">设置</button>
+		</div>
+<?php endif;?>
+<?php if($flag=='flag_token'):?>
+        <div>
+			<label for="isOpen">开放状态</label> <span><?php echo $wcApp['isOpen']==0?'关闭':'开放'?></span>
+		</div>
+		<div>
+			<label for="url">接入url</label> <span><?php echo $this->url?></span>
+		</div>
+		<div>
+			<label for="token">token</label> <span><?php echo $wcApp['token']?></span>
+		</div>
+		<div>
+			<button type="submit"
+				formaction="/wechat/index/access/?action=modify" value="">修改</button>
+		</div>
+		<div>
+			<label for="appId">appId</label> <input name="appId" id="appId"
+				value="<?php echo $wcApp['appId']?>" type="text">
+		</div>
+		<div>
+			<label for="secret">secret</label> <input name="secret" id="secret"
+				value="<?php echo $wcApp['secret']?>" type="text">
+		</div>
+		<div>
+			<label for="appUser">原始ID</label> <input name="appUser"
+				id="appUser" value="<?php echo $wcApp['appUser']?>" type="text">
+		</div>
+		<div>
+			<label>公众号类型</label> <input name="appType" class="appType"
+				value="订阅号" type="radio"
+				<?php echo $type=='订阅号'?'checked="checked"':''?>>
+			<span>订阅号</span>
+			<input name="appType" class="appType" value="服务号" type="radio"
+				<?php echo $type=='服务号'?'checked="checked"':''?>>
+			<span>服务号</span>
+		</div>
+		<div>
+			<button type="submit" formaction="/wechat/index/access/?action=app"
+				value="">设置</button>
+		</div>
+<?php endif;?>
+<?php if($flag=='flag_all'):?>
+		<div>
+			<label for="isOpen">开放状态</label> <span><?php echo $wcApp['isOpen']==0?'关闭':'开放'?></span>
+		</div>
+		<div>
+			<label for="url">接入url</label> <span><?php echo $this->url?></span>
+		</div>
+		<div>
+			<label for="token">token</label> <span><?php echo $wcApp['token']?></span>
+		</div>
+		<div>
+			<label for="appId">appId</label> <span><?php echo $wcApp['appId']?></span>
+		</div>
+		<div>
+			<label for="secret">secret</label> <span><?php echo $wcApp['secret']?></span>
+		</div>
+		<div>
+			<label for="appUser">原始ID</label> <span><?php echo $wcApp['appUser']?></span>
+		</div>
+		<div>
+			<label>公众号类型</label> <span><?php echo $wcApp['appType']?></span>
+		</div>
+		<div>
+			<button type="submit" name="button_modify"
+				formaction="/wechat/index/access/?action=modify" value="">修改</button>
+		</div>
+<?php endif;?>
+</form>
+</div>

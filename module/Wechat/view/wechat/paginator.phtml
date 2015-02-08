@@ -1,0 +1,47 @@
+<!--
+See http://developer.yahoo.com/ypatterns/pattern.php?pattern=itempagination
+-->
+<?php use Cly\Common\ClyLib;?>
+<?php if ($this->pageCount): ?>
+<div class="paginationControl">
+<?php echo $this->firstItemNumber; ?> - <?php echo $this->lastItemNumber; ?>
+ of <?php echo $this->totalItemCount; ?>
+
+<!-- First page link -->
+<?php if (isset($this->previous)): ?>
+  <a
+		href="<?php echo ClyLib::addQuery($this->baseUri,array('page'=>$this->first)); ?>">
+		首页 </a> |
+<?php else: ?>
+  <span class="disabled">首页</span> |
+<?php endif; ?>
+
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+  <a
+		href="<?php echo ClyLib::addQuery($this->baseUri,array('page'=>$this->previous)); ?>">
+		&lt; 上一页 </a> |
+<?php else: ?>
+  <span class="disabled">&lt; 上一页</span> |
+<?php endif; ?>
+
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+  <a
+		href="<?php echo ClyLib::addQuery($this->baseUri,array('page'=>$this->next)); ?>">
+		下一页  &gt; </a> |
+<?php else: ?>
+  <span class="disabled">下一页 &gt;</span> |
+<?php endif; ?>
+
+<!-- Last page link -->
+<?php if (isset($this->next)): ?>
+  <a
+		href="<?php echo ClyLib::addQuery($this->baseUri,array('page'=>$this->last)); ?>">
+		末页 </a>
+<?php else: ?>
+  <span class="disabled">末页</span>
+<?php endif; ?>
+
+</div>
+<?php endif; ?>

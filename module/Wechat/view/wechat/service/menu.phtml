@@ -1,0 +1,126 @@
+<table id="big_table" class="tableA" width="100%" height="100%"
+	border="0" cellspacing="0" cellpadding="0">
+	<tbody style="display: table-header-group">
+		<tr class="bgA tra left_width" style="height: 55px; overflow: hidden">
+			<th><a href="#"><img src="/images/admin/admin_logov2.gif"></a></th>
+			<td><ul id="topMenu" style="float: left;"></ul>
+				<div style="float: right; padding-right: 20px;">
+					<a target="_blank" href="#">前台首页</a> <a href="/wechat/index/logout">退出登录</a>
+				</div></td>
+
+		</tr>
+		<tr>
+			<td style="height: 30px; overflow: hidden" colspan="2">
+				<div id="mid_head">
+					<!--放置标签style="height:30px;overflow:hidden"-->
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr class="trb left_width">
+							<th class="bgA tha">&nbsp;</th>
+							<td id="td_tabs" class="bgA tda"><div id="tab_menu"></div>&nbsp;</td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr class="trd vt left_width" id="mid_cont" style="">
+			<th id="page_left" width="140"><div style="height: 30px">
+					<h2 id="menu_title" class="h2"></h2>
+				</div>
+				<dl style="padding: 4px 0 0 0; height: 100%" id="leftMenu"></dl></th>
+			<td id="iframepage" style="">
+				<!--加上：height:100% 会导致table的高度比body高-->
+				<div id="current_location" class="high_30"
+					style="padding-left: 10px;">当前位置：</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<script type="text/javascript">
+var menu_head = <?php echo $this->menu?>;//数组
+var menu_child = <?php echo $this->items?>;
+var menu_head_Obj = $('#topMenu')[0];
+var menu_left_Obj = $('#leftMenu')[0];
+var menu_title_Obj = $('#menu_title')[0];
+//var current_location_Obj = $('#current_location')[0];
+for(var i=0;i<menu_head.length;i++){
+	var li = document.createElement('li');
+	li.innerHTML = menu_head[i].name;
+	li.className = 'focus';
+	li.style.cursor = "pointer";
+	$(li).bind('click',{id:menu_head[i].id,name:menu_head[i].name},setMenu);
+	//AddEvents(li,Foo);
+	menu_head_Obj.appendChild(li);
+}
+function setMenu(evt)
+{
+	menu_title_Obj.innerHTML = evt.data.name;
+	menu_left_Obj.innerHTML = '';//锟斤拷锟皆拷锟斤拷锟斤拷锟斤拷械慕诘锟?
+	for(key in menu_child[evt.data.id].items)
+	{
+		var locationHTML = ' > '+ evt.data.name;
+		locationHTML = locationHTML + ' > ' + menu_child[evt.data.id].items[key].name; 
+		var dt = document.createElement('dt');
+		//li.className = 'focus';
+		dt.style.cursor = "pointer";
+		var a = document.createElement('a');
+		a.innerHTML = menu_child[evt.data.id].items[key].name;
+		$(a).bind('click',{t_id:menu_child[evt.data.id].items[key].id,t_title:menu_child[evt.data.id].items[key].name,t_url:menu_child[evt.data.id].items[key].url,t_isClosed:1,location:locationHTML},AddTab);//t_id,t_title,t_url,t_isClosed
+		dt.appendChild(a);
+		//AddEvents(li,Foo);
+		menu_left_Obj.appendChild(dt);
+	}
+}
+var tab=null;
+$(function() {
+	  tab = new TabView( {
+		containerId :'tab_menu',
+		pageid :'iframepage',
+		cid :'tab_po',
+		position :"top"//标签相对于显示的页面的位置：页面上方或者页面下方
+	});
+	/*tab.add( {
+		id :'info',
+		title :"微信接入",
+		url :"/wechat/index/access",//"index.php?d=wechatzf2local_admin_sys&c=member&m=trapage",
+		isClosed :true
+	});*/
+});
+var index=1;
+function AddTab(evt){//t_id,t_title,t_url,t_isClosed
+	var id = evt.data.t_id;
+	if($('#'+id).length > 0){
+		tab.update({
+			id : evt.data.t_id,
+			title : evt.data.t_title == '' ? '标签'+index : $("#" + evt.data.t_id).find(".tab_title").html(),//t_title
+			url : evt.data.t_url=='' ? '#' : $("#page_" + id).attr("src")//t_url
+			});
+		
+		tab.activate(id);
+		//current_location_Obj.innerHTML = '当前位置: ' + evt.data.location;
+		return;
+	}
+	tab.add( {
+		id :evt.data.t_id,
+		title :evt.data.t_title == '' ? '标签'+index : evt.data.t_title,
+		url :evt.data.t_url=='' ? '#' : evt.data.t_url,
+		isClosed :evt.data.t_isClosed==0 ? false : true
+	});
+	$('#page_'+evt.data.t_id).attr('height',$(document.body).height() - 55 - 30-30);
+	index++;
+	//current_location_Obj.innerHTML = '当前位置: ' + evt.data.location;
+}
+function fixiframe(){
+	$('#iframepage > iframe').each(function(index, element) {
+        $(this).attr('height',$(document.body).height() - 55 - 30-30);
+    });
+}
+window.onresize = function(){
+	fixiframe();
+}
+$(document).ready(function(e) {
+    fixiframe();
+	setMenu({"data":{id:menu_head[0].id,name:menu_head[0].name}});//初始化菜单
+});
+</script>

@@ -1,0 +1,37 @@
+<!--搜索栏-->
+<div class="searchBox">
+	<form action="<?php echo $this->searchUrl?>" method="post">
+		<label>聊天记录查询</label> <input name="search" class="search" type="text" />
+		<input class="search_btn" type="submit" value="查询" />
+	</form>
+</div>
+<div class="userList">
+	<div class="userBar">
+		<p class="userHead">头像</p>
+		<p class="userName">用户昵称</p>
+		<p class="userDate">时间</p>
+		<p class="userMag searchUserMag">消息内容</p>
+	</div>
+	<ul>
+    <?php foreach ($this->paginator as $item): ?>
+        <li>
+			<p class="userHead">
+				<img src="<?php echo $item[headImgUrl]?>">
+			</p>
+			<p class="userName">
+				<a
+					href="<?php echo $this->talkUserUrl.'?openId='.$item[fromUserName].'&baseUrl='.$this->baseUrl?>"><?php echo $item[nickName];?></a>
+			</p>
+			<p class="userDate"><?php echo date("Y-m-d H:i:s",$item[createTime])?></p>
+			<p class="userMag searchUserMag"><?php echo $item[content]?></p>
+		</li>
+    <?php endforeach; ?>
+    </ul>
+</div>
+
+<?php
+echo $this->paginationControl ( $this->paginator, 'Sliding', 'wechat/paginator', array (
+		'baseUri' => $this->baseUri 
+) );
+?>
+

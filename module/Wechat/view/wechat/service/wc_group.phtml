@@ -1,0 +1,22 @@
+<div class="groupSearch">
+	<form method="post" action="">
+		<label>分组Id</label><input name="groupId" type="text">
+		<label>分组名</label><input name="groupName" type="text"> 
+		<input type="submit" value="添加" formaction="<?php echo $this->baseUri.'?action=add'?>"> 
+		<input type="submit" value="修改" formaction="<?php echo $this->baseUri.'?action=modify'?>">
+	</form>
+</div>
+<div class="groupList">
+	<div class="groupBar">
+		<p class="groupId">分组ID</p>
+		<p class="groupName">分组名</p>
+		<p class="groupNum">用户数</p>
+	</div>
+	<ul>
+	<?php foreach ($this->paginator as $item): ?>
+		<li><p class="groupId"><?php echo $item[id]?></p>
+			<p class="groupName"><?php echo $item[name]?></p>
+			<p class="groupNum"><?php echo $item[count]?></p></li>
+			<?php endforeach; ?>
+	</ul>
+</div>

@@ -1,0 +1,183 @@
+<script type="text/javascript">
+<!--
+var groupUrl='<?php echo $this->groupUrl?>';
+var groupSendUrl='<?php echo $this->groupSendUrl?>';
+var options={"data":{"name":"图文消息","type":"news","value":[]}};
+$(function(){
+	$(".search").css('width','600px');
+	$(".search").attr('placeholder','默认查询所有用户，如需查询特定用户，请输入用户名');
+	$(".jsSearchSelect").change(function(){
+		var selectValue=$(this).val();
+		var notice='';
+		switch(selectValue){
+		case '用户名':
+			notice='默认查询所有用户，如需查询特定用户，请输入用户名';
+			break;
+		case '互动时间':
+			notice='默认互动时间为48小时内用户，如需改变请输入小时数';
+			break;
+		case '即将过期':
+			notice='默认即将过期为4小时内用户，如需改变请输入小时数';
+			break;
+		}
+		$(".search").attr('placeholder',notice);
+	});
+	$(".jsGroupSelect").change(function(){
+		var data={groupName:$(this).val(),openId:$(this).attr('name')};
+		$.post(groupUrl,{'data':JSON.stringify(data)},function(result,status){
+			if(result!='success'){
+				alert(result);
+			}
+		});
+	});
+	$("#textMag input").click(function(){
+		var sendData=$("#textMag textarea").val();
+		$.post(groupSendUrl,{'sendData':sendData,'sendType':'text'},function(result,status){
+				alert(result);
+		});
+		$(".gs_btn").trigger('click');
+	});
+	gsTag();
+	new Config(options,$("#imgMag"),groupSendUrl,function(e){
+		$.post(e.data.config.url,{'sendType':'news','sendData':JSON.stringify(e.data.config.options)},function(result,status){
+			alert(result);
+		});
+		});
+});
+function groupSendCallback(result,status){
+	alert(result);
+}
+/*消息群发切换*/
+function gsTag() {	
+	var gsX = true;
+	$("#imgMag").hide();
+	$(".gs_btn").click(function(){
+		if(gsX == true) {
+		$(".gs_box").css("height",450+ "px");	
+		$(".gs_box").css("overflow","visible");
+		$(".gs").fadeIn(500);
+		$(this).val("关闭群发");
+		gsX = false;
+		return gsX;
+		}
+		else {
+		$(".gs_box").css("height",0);
+		$(".gs_box").css("overflow","hidden");	
+		$(this).val("群发消息");
+		$(".gs").fadeOut(500);
+		gsX = true;
+		return gsX;
+		}
+	});
+	var tags= $(".gs_bar li");
+	tags.eq(0).click(function(){
+		tags.removeClass("gsSelevtd");
+		$(this).addClass("gsSelevtd");
+		$("#textMag").show();
+		$("#imgMag").hide();
+	});	
+	tags.eq(1).click(function(){
+		tags.removeClass("gsSelevtd");
+		$(this).addClass("gsSelevtd");
+		$("#textMag").hide();
+		$("#imgMag").show();
+	});	
+}
+//-->
+</script>
+<div>
+	<ul>
+		<li><a href="<?php echo $this->syncUrl?>">同步列表到本地</a></li>
+		<li><a href="<?php echo $this->refreshLastUrl?>">刷新最后时间和最后内容</a></li>
+	</ul>
+</div>
+<!--搜索栏-->
+<div class="searchBox">
+	<form action="<?php echo $this->searchUrl?>" method="get">
+		<input name="action" value="search" style="display: none" /> <select
+			class='jsSearchSelect' name="searchType"><option>用户名</option>
+			<option>互动时间</option>
+			<option>即将过期</option></select><input name="searchText" class="search"
+			type="text" /> <input class="search_btn" type="submit" value="查询" />
+	</form>
+	<input class="gs_btn" type="button" value="群发消息" />
+</div>
+<!--群发消息-->
+<div class="gs_box">
+	<div class="gs">
+		<ul class="gs_bar">
+			<li class="gsSelevtd">文字消息</li>
+			<li>图文消息</li>
+		</ul>
+		<div class="gs_con" id="textMag">
+			<textarea class="textMag"></textarea>
+			<input type="submit" value="发送消息">
+		</div>
+		<div class="gs_con" id="imgMag"></div>
+	</div>
+</div>
+<!--用户列表-->
+<div class="userList">
+	<div class="userBar">
+		<p class="userHead">头像</p>
+		<p class="userName">用户名</p>
+		<p class="userSex">性别</p>
+		<p class="userProvince">省</p>
+		<p class="userCity">市</p>
+		<p class="userGroup">用户组</p>
+		<p class="userDate">关注时间</p>
+		<p class="userDate">最后互动时间</p>
+		<p class="userExpire">即将过期</p>
+		<p class="userMag">最后发送消息</p>
+	</div>
+	<ul>
+        <?php foreach ($this->paginator as $item): ?>
+        <?php
+									$lastTime = $item [lastMsgTime];
+									$lastContent = $item [lastMsgContent];
+									?>
+    	<li>
+			<p class="userHead">
+				<img src="<?php echo $item[headImgUrl]?>">
+			</p>
+			<p class="userName">
+				<a
+					href="<?php echo $this->talkUserUrl.'?openId='.$item[openId].'&baseUrl='.$this->baseUrl?>"><?php echo $item[nickName]?></a>
+			</p>
+			<p class="userSex"><?php echo $item[sex]==1?'男':'女'?></p>
+			<p class="userProvince"><?php echo $item[province]?></p>
+			<p class="userCity"><?php echo $item[city]?></p>
+			<p class="userGroup">
+				<select class="jsGroupSelect" name="<?php echo $item[openId]?>">
+					<option><?php echo $this->groupList[$item[groupId]][name]?></option>
+			<?php foreach ($this->groupList as $value):?>
+			     <?php if($value[id]!=$item[groupId]):?>
+			     <option><?php echo $value[name]?></option>
+			     <?php endif;?>
+			<?php endforeach;?>
+			</select>
+			</p>
+			<p class="userDate"><?php echo date("Y-m-d H:i:s", $item[subscribeTime])?></p>
+			<p class="userDate"><?php echo $lastTime?date("Y-m-d H:i:s", $lastTime):''?></p>
+			<p class="userExpire"><?php
+									$last = $lastTime ?  : $item [subscribeTime];
+									$now = time ();
+									$subTime = $now - $last;
+									$effectTime = $this->effectTime * 3600;
+									$expireTime = round ( ($effectTime - $subTime) / 60 );
+									if ($expireTime > 0)
+										echo "$expireTime 分钟";
+									else
+										echo '已过期';
+									?></p>
+			<p class="userMag"><?php echo $lastContent?></p>
+		</li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<?php
+echo $this->paginationControl ( $this->paginator, 'Sliding', 'wechat/paginator', array (
+		'baseUri' => $this->baseUri 
+) );
+?>
+

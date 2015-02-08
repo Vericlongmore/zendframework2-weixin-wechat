@@ -1,0 +1,45 @@
+<script type="text/javascript">
+<!--
+$(function(){
+	
+});
+//-->
+</script>
+<div class="codeList">
+	<div class="titleBar">
+		<p class="sceneId">场景值</p>
+		<p class="note">注释</p>
+		<p class="code">二维码</p>
+		<p class="operate">操作</p>
+	</div>
+	<ul>
+	   <?php foreach ($this->paginator as $item): ?>
+	   <?php
+					$sceneId = $item ['sceneId'];
+					$note = $item ['note'];
+					?>
+		<li>
+			<p class="sceneId"><?php echo $sceneId?></p>
+			<p class="note"><?php echo $note?></p>
+			<p class="code">
+				<img alt="<?php echo 'sceneId='.$sceneId?>"
+					src="<?php
+					echo Cly\Common\ClyLib::addQuery ( $this->baseUri, array (
+							'action' => 'show',
+							sceneId => $sceneId 
+					) );
+					?>">
+			</p>
+			<p class="operate"><a href="<?php echo Cly\Common\ClyLib::addQuery ( $this->baseUri, array (
+							'action' => 'delete',
+							sceneId => $sceneId 
+					) );?>">删除</a></p>
+		</li>
+		<?php endforeach;?>
+	</ul>
+</div>
+<?php
+echo $this->paginationControl ( $this->paginator, 'Sliding', 'wechat/paginator', array (
+		'baseUri' => $this->baseUri 
+) );
+?>

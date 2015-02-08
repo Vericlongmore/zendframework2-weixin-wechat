@@ -1,0 +1,18 @@
+# Composer files
+composer.phar
+#vendor/
+
+# Local configs
+config/autoload/*local.php
+config/autoload/*global.php
+
+# Binary gettext files
+#*.po
+
+# Data
+#log/
+#logs/
+/data
+#temp/
+#tmp/
+

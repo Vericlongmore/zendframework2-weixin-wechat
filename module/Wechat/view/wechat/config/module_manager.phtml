@@ -1,0 +1,11 @@
+<script type="text/javascript">
+<!--
+var moduleUrl='<?php echo $this->moduleUrl?>';
+var options=<?php echo json_encode ( $this->options, JSON_UNESCAPED_UNICODE)?>;
+$(function(){
+	new Config(options,$('#options-container'),moduleUrl);
+});
+//-->
+</script>
+<a href="<?php echo $this->baseUrl?>">返回</a>
+<div id="options-container" class="form-horizontal"></div>

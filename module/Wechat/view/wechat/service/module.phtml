@@ -1,0 +1,43 @@
+<div class="module">
+	<div class="modBar">
+		<p class="modName">内部模块</p>
+		<p class="modState"></p>
+		<p class="modOpr">功能</p>
+	</div>
+	<ul>
+	    <?php foreach ($this->inner_modules as $module): ?>
+		<li>
+			<p class="modName"><?php echo $module['name']?></p>
+			<p class="modState"></p>
+			<p class="modOpr">
+				<a href="<?php echo $module['config_url']?>">配置</a>
+				<a href="<?php echo $module['reload_url']?>">重载</a>
+			</p>
+		</li>
+		<?php endforeach; ?>
+	</ul>
+</div>
+<div class="module">
+	<div class="modBar">
+		<p class="modName">外部模块</p>
+		<p class="modState">状态</p>
+		<p class="modOpr">功能</p>
+	</div>
+	<ul>
+	    <?php foreach ($this->outer_modules as $module): ?>
+		<li>
+			<p class="modName"><?php echo $module['name']?></p>
+			<p class="modState"><?php echo $module['statu']=='off'?'关闭':'启用'?></p>
+			<p class="modOpr">
+    			<?php if($module['statu']!='off'):?>
+    		    <a href="<?php echo $module['close_url']?>">关闭</a>
+    		    <a href="<?php echo $module['config_url']?>">配置</a>
+    			<?php else:?>
+    			<a href="<?php echo $module['open_url']?>">开启</a> 
+    		    <?php endif;?>
+    		    <a href="<?php echo $module['reload_url']?>">重载</a>
+			</p>
+		</li>
+		<?php endforeach; ?>
+	</ul>
+</div>
